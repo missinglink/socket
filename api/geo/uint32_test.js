@@ -4,7 +4,7 @@ import Uint32 from './uint32.js'
 test('constructor', (t) => {
   t.throws(() => new Uint32(new Uint8Array(0)), /invalid bytes/)
   t.throws(() => new Uint32(new Uint8Array(3)), /invalid bytes/)
-  t.throws(() => new Uint32([0,0,0,0]), /invalid bytes/)
+  t.throws(() => new Uint32([0, 0, 0, 0]), /invalid bytes/)
   t.ok(new Uint32())
   t.ok(new Uint32(0b10101010))
   t.ok(new Uint32(new Uint8Array(4)))
@@ -12,16 +12,16 @@ test('constructor', (t) => {
 })
 
 test('alloc', (t) => {
-  let uint = new Uint32()
+  const uint = new Uint32()
   t.equal(uint, 0b0)
 })
 
 test('zero-copy', (t) => {
   // source array (from external memory)
-  let arr = new Uint8Array([0, 0, 0, 0b10101010])
+  const arr = new Uint8Array([0, 0, 0, 0b10101010])
 
   // source is passed by reference
-  let uint = new Uint32(arr.buffer)
+  const uint = new Uint32(arr.buffer)
   t.equal(uint, 0b10101010)
 
   // mutating the source arr refects changes in the uint
@@ -30,11 +30,11 @@ test('zero-copy', (t) => {
 })
 
 test('copy', (t) => {
-  let uint1 = new Uint32(0b10101010)
+  const uint1 = new Uint32(0b10101010)
   t.equal(uint1, 0b10101010)
 
   // uint2 contains a copy of the bytes from uint1
-  let uint2 = uint1.copy()
+  const uint2 = uint1.copy()
   t.equal(uint2, 0b10101010)
 
   // mutating uint1 doesn't change uint2

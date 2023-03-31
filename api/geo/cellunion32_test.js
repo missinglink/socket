@@ -1,0 +1,29 @@
+import { test } from '../test/index.js'
+import CellID32 from './cellid32.js'
+import CellUnion32 from './cellunion32.js'
+
+test('constructor', (t) => {
+  t.equal(new CellUnion32().data.length, 0)
+})
+
+test('compress', (t) => {
+  const u1 = new CellUnion32([
+    new CellID32(0b00000000000000000000000000000001),
+    new CellID32(0b00000000000000000000000000000011),
+    new CellID32(0b00000000000000000000000000000111),
+    new CellID32(0b00000000000000000000000000001111),
+    new CellID32(0b00000000000000000000000000011111),
+    new CellID32(0b00000000000000000000000000111111),
+    new CellID32(0b00000000000000000000000001111111),
+    new CellID32(0b00000000000000000000000011111111),
+    new CellID32(0b00000000000000000000000111111111)
+  ])
+
+  const u2 = u1.compress(4)
+  t.deepEqual(u2.data, [
+    new CellID32(0b00000000000000000000000001110000),
+    new CellID32(0b00000000000000000000000011110000),
+    new CellID32(0b00000000000000000000000111110000),
+    new CellID32(0b00000000000000000000000001000000)
+  ])
+})
